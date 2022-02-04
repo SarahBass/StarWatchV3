@@ -87,14 +87,17 @@ clock.ontick = (evt) => {
   let years = today.getFullYear();
   let mins = util.zeroPad(today.getMinutes());
   let seconds = today.getSeconds();
+  
+  
 
- 
-
+//GET ("https://api.fitbit.com/1/user/-/foods/log/water/date/" + years + "-" + "0" + months + "-" + "0" + dates ".json");
+//GET ("https://api.fitbit.com/1/user/-/foods/log/water/date/" + years + "-" + "0" + months + "-" + "0" + dates ".json");
+//foodlabel.text = data.summary.water;   
  /*--- Update Stats for Screen ---*/
   updateScene();
+  foodlabel.text = "0";
   stepsLabel.text = userActivity.adjusted.steps;
   firelabel.text = userActivity.adjusted.calories;
-  foodlabel.text = "0";
   targetlabel.text = parseInt(userActivity.adjusted.steps/goals.steps * 100) + "%";
   boltlabel.text = userActivity.adjusted.activeZoneMinutes.total;
   if (HeartRateSensor && appbit.permissions.granted("access_heart_rate")) {
