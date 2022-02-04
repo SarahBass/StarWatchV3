@@ -3,7 +3,7 @@ Versa3 SDK 6.0
 
 Stats heavy watch, filled with cute interactions, daily changing pictures, and fun surprises.
 
-![Alt text](https://github.com/SarahBass/StarWatchV3/blob/main/Versa3copy.png)
+![Alt text](https://github.com/SarahBass/StarWatchV3/blob/main/rainbow.png)
 
 Contents: | Description:
 --------- | ------------
