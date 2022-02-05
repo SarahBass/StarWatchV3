@@ -16,8 +16,6 @@
   USE PNG for numbers and animations for
  faster upload, and jpeg for backgrounds
  
-https://developer.mozilla.org/en-US/docs
-/Web/JavaScript/Reference/Global_Objects/Date
  ---------------------------------------------
 */
 
@@ -71,7 +69,8 @@ const stepsLabel = document.getElementById("stepsLabel");
 const firelabel = document.getElementById("firelabel");
 const boltlabel = document.getElementById("boltlabel");
 const heartlabel = document.getElementById("heartlabel");
-const foodlabel = document.getElementById("foodlabel");
+const stairslabel = document.getElementById("stairslabel");
+const distancelabel = document.getElementById("distancelabel");
 const targetlabel = document.getElementById("targetlabel");
  /*--- Animation Groups Imported from Index.gui---*/
 var demoinstance = document.getElementById("demoinstance");
@@ -89,13 +88,14 @@ clock.ontick = (evt) => {
   let seconds = today.getSeconds();
   
   
-
-//GET ("https://api.fitbit.com/1/user/-/foods/log/water/date/" + years + "-" + "0" + months + "-" + "0" + dates ".json");
-//GET ("https://api.fitbit.com/1/user/-/foods/log/water/date/" + years + "-" + "0" + months + "-" + "0" + dates ".json");
-//foodlabel.text = data.summary.water;   
  /*--- Update Stats for Screen ---*/
   updateScene();
-  foodlabel.text = "0";
+  
+  if (preferences.UnitsSettings == "us"){
+  distancelabel.text = (0.000621371 * userActivity.adjusted.distance).toFixed(1) + " mi";}
+  else {distancelabel.text = (0.001 * userActivity.adjusted.distance).toFixed(1) + " km";}
+
+  stairslabel.text = userActivity.adjusted.elevationGain;
   stepsLabel.text = userActivity.adjusted.steps;
   firelabel.text = userActivity.adjusted.calories;
   targetlabel.text = parseInt(userActivity.adjusted.steps/goals.steps * 100) + "%";
@@ -341,75 +341,29 @@ function checkAndUpdateBatteryLevel() {
 
  function changeBackground(){ 
 
-    if (months == 0){
-    if ((dates == 3)||(dates == 5)||(dates == 10)||(dates == 15)||
-       (dates == 16)||(dates == 20)||(dates == 24)||(dates == 28)){
-         background.image = "jan/" + dates + ".jpeg";}
-    else{background.image = ("plain/" + dates + ".jpeg"); }}
+    if (months == 0){background.image = "jan/" + dates%10 + ".jpeg";}
     
-    else if (months == 1){
-        if (dates < 22 ){background.image = "feb/" + dates + ".jpeg";}
-        else{background.image = ("plain/" + dates + ".jpeg"); }}
+    else if (months == 1){background.image = "feb/" + dates%10 + ".jpeg";}
     
-    else if (months == 2){
-       if ((dates == 1)||(dates == 2)||(dates == 10)||(dates == 15)||
-           (dates == 16)||(dates == 17)||(dates == 20)||(dates == 21)||
-          (dates == 26)||(dates == 27))
-           {background.image = "mar/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }}
-    
-    else if (months == 3){
-       if ((dates == 1)||(dates == 2)||(dates == 3)||(dates == 5)||
-       (dates == 10)||(dates == 15)||(dates == 16)||(dates == 17)){
-            background.image = "apr/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }}
-    
-    else if (months == 4){
-       if ((dates == 1)||(dates == 2)||(dates == 4)||(dates == 5)||
-       (dates == 8)||(dates == 10)||(dates == 12)||(dates == 20)||
-       (dates == 21)||(dates == 25)||(dates == 29)){
-           background.image = "may/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }}
-    
-    else if (months == 5){
-       if ((dates == 1)||(dates == 5)||(dates == 6)||(dates == 10)||
-       (dates == 15)||(dates == 17)){background.image = "jun/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }}
-        
-    else if (months == 6){
-       if ((dates == 1)||(dates == 4)||(dates == 7)||(dates == 10)||
-       (dates == 11)||(dates == 15)||(dates == 20)(dates == 22)||(dates == 25))
-           {background.image = "jul/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }}
+    else if (months == 2){background.image = "mar/" + dates%10 + ".jpeg";}
+       
+    else if (months == 3){background.image = "apr/" + dates%10 + ".jpeg";}
+       
+    else if (months == 4){background.image = "may/" + dates%10 + ".jpeg";}
+       
+    else if (months == 5){background.image = "jun/" + dates%10 + ".jpeg";}
+       
+    else if (months == 6){background.image = "jul/" + dates%10 + ".jpeg";}
            
-   else if (months == 7){
-       if ((dates == 1)||(dates == 3)||(dates == 5)||(dates == 10)||
-       (dates == 15)||(dates == 20)){background.image = "aug/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }}    
+   else if (months == 7){background.image = "aug/" + dates%10 + ".jpeg";}
               
-   else if (months == 8){
-       if ((dates == 1)||(dates == 5)||(dates == 10)||(dates == 11)||
-       (dates == 25)||(dates == 26)||(dates == 27)){
-            background.image = "sep/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }}   
-      
-   else if (months == 9){
-       if ((dates == 1)||(dates == 3)||(dates == 5)||(dates == 13)||
-       (dates == 20)||(dates == 31)){background.image = "oct/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); }} 
+   else if (months == 8){background.image = "sep/" + dates%10 + ".jpeg";}
+       
+   else if (months == 9){background.image = "oct/" + dates%10 + ".jpeg";}
          
-   else if (months == 10){
-       if ((dates == 1)||(dates == 5)||(dates == 10)||(dates == 15)||
-       (dates == 25)){background.image = "nov/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); } }
-         
-   else if (months == 11){
-       if ((dates == 1)||(dates == 2)||(dates == 3)||(dates == 4)||
-       (dates == 5)||(dates == 10)||(dates == 18)||(dates == 19)||
-       (dates == 20)||(dates == 21)||(dates == 22)||(dates == 23)||
-       (dates == 24)||(dates == 25)){
-            background.image = "dec/" + dates + ".jpeg";}
-       else{background.image = ("plain/" + dates + ".jpeg"); } }
+   else if (months == 10){background.image = "nov/" + dates%10 + ".jpeg";}
+       
+   else if (months == 11){background.image = "dec/" + dates%10 + ".jpeg";}
          
    else {}  
 }
