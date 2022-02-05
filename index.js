@@ -58,7 +58,9 @@ let mouth = document.getElementById("mouth");
 let eyes = document.getElementById("eyes");
 let cheeks = document.getElementById("cheeks");
 let cute = document.getElementById("cute");
-  
+let heartbutton = document.getElementById("heartbutton");  
+let heartclick = 0;   
+let pasteventread = "";   
 //Update the clock every second 
 clock.granularity = "seconds";
 
@@ -72,8 +74,35 @@ const heartlabel = document.getElementById("heartlabel");
 const stairslabel = document.getElementById("stairslabel");
 const distancelabel = document.getElementById("distancelabel");
 const targetlabel = document.getElementById("targetlabel");
+heartlabel.text = "off";
  /*--- Animation Groups Imported from Index.gui---*/
 var demoinstance = document.getElementById("demoinstance");
+
+  
+heartbutton.onactivate = function(evt) { 
+  heartclick++;
+  if (heartclick > 1){heartclick = 0;} 
+  console.log("heart number: ");
+  console.log(heartclick);
+  
+ if (heartclick == 1){ 
+   heartlabel.text = pasteventread;
+  if (HeartRateSensor && appbit.permissions.granted("access_heart_rate")) {
+   const hrm = new HeartRateSensor();
+  hrm.addEventListener("reading", () => {
+    console.log(`Current heart rate: ${hrm.heartRate}`);
+    heartlabel.text = (`${hrm.heartRate}`);
+    pasteventread = (`${hrm.heartRate}`);
+  });
+  display.addEventListener("change", () => {
+    // Automatically stop the sensor when the screen is off to conserve battery
+    display.on ? hrm.start() : hrm.stop();
+  });
+  hrm.start();
+  }else {heartlabel.text = "0";}
+ 
+ }else {heartlabel.text = "off";}
+}
 
 /*--- CLOCK START ---*/
 clock.ontick = (evt) => {
@@ -87,7 +116,7 @@ clock.ontick = (evt) => {
   let mins = util.zeroPad(today.getMinutes());
   let seconds = today.getSeconds();
   
-  
+
  /*--- Update Stats for Screen ---*/
   updateScene();
   
@@ -100,29 +129,15 @@ clock.ontick = (evt) => {
   firelabel.text = userActivity.adjusted.calories;
   targetlabel.text = parseInt(userActivity.adjusted.steps/goals.steps * 100) + "%";
   boltlabel.text = userActivity.adjusted.activeZoneMinutes.total;
-  if (HeartRateSensor && appbit.permissions.granted("access_heart_rate")) {
-   const hrm = new HeartRateSensor();
-  hrm.addEventListener("reading", () => {
-    console.log(`Current heart rate: ${hrm.heartRate}`);
-    heartlabel.text = (`${hrm.heartRate}`);
-  });
-  display.addEventListener("change", () => {
-    // Automatically stop the sensor when the screen is off to conserve battery
-    display.on ? hrm.start() : hrm.stop();
-  });
-  hrm.start();
-
-  
-}else {heartlabel.text = "0";}
-  
+    
   checkAndUpdateBatteryLevel();
   
   
   //AM PM -Change the image based on 24 hours
   if (util.zeroPad(hours) <12){ampm.image = "am.png";
-                              if ((util.zeroPad(hours) > 1) && (util.zeroPad(hours) < 7)) {
-                                   cuteobject.image = "star/sleeping.png";
-                                   cute.image = "star/sleeping.png";}
+                              if ((util.zeroPad(hours) >= 0) && (util.zeroPad(hours) < 7)) {
+                                   cuteobject.image = "star/sleepingbear.png";
+                                   cute.image = "star/sleepingbear.png";}
                               else if (util.zeroPad(hours) == 7){
                                    cuteobject.image = "star/apple.png";
                                    cute.image = "star/apple.png";}
@@ -290,10 +305,11 @@ clock.ontick = (evt) => {
 
   /*--- Battery Functions ---*/
   display.addEventListener('change', function () { if (this.on) {checkAndUpdateBatteryLevel();}
+                                                  
                                                     
                                                   
 });
-/*----------------------------END OF ON CLICK-----------------------------------*/
+/*----------------------------END OF ON TICK-----------------------------------*/
   
 /*----------------------------START OF FUNCTIONS--------------------------------*/
 
@@ -306,6 +322,7 @@ function checkAndUpdateBatteryLevel() {
         battery.onchange = (charger, evt) => {batteryLabel.class = "labelgreen";}}
 }
  
+  
   
 /*--- Change Date and Background Functions ---*/
   function updateScene() {
