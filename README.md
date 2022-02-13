@@ -1,5 +1,5 @@
 # Ftbit Star V3
-Versa3 Sense SDK 6.0 
+Versa3 Sense SDK 6.0 - COMPLETE BUT TOO LARGE OF A FILE FOR VERSA 3. ONLY WORKS SMOOTHLY IN SIMULATOR
 
 Stats heavy watch, filled with cute interactions, daily changing pictures, and fun surprises.
 
